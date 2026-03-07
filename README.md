@@ -1,4 +1,4 @@
-# HiLow Game
+# HiLow Game/v1
  Task: Write a GUI Hi-Lo guessing game using JavaFX without SceneBuilder.
  The program randomly picks a number from 1-100 (inclusive).
  The user enters a guess into a text field.
