@@ -1,3 +1,5 @@
+
+
 import java.util.Random;
 
 import javafx.animation.FadeTransition;
@@ -72,6 +74,7 @@ public class HiLow extends Application {
 	private TextField guessField;
 	private Button guessingButton;
 	private Button playAgainButton;
+	private Label arrowLabel; 
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -129,6 +132,12 @@ public class HiLow extends Application {
         playAgainButton.setVisible(false);
         playAgainButton.setManaged(false);
         
+        
+        arrowLabel = new Label("");
+        arrowLabel.setFont(Font.font(60));
+        arrowLabel.setTextFill(Color.GOLD);
+        arrowLabel.setAlignment(Pos.CENTER);
+        
         playAgainButton.setOnMouseEntered(e ->
 	        playAgainButton.setStyle(BTN_SUCCESS.replace("#22c55e", "#16a34a"))
 	    );
@@ -143,8 +152,9 @@ public class HiLow extends Application {
         hint.setTextFill(Color.ORANGE);
 
         
-        VBox card = new VBox(20, attemptLabel, rangeLabel,feedbackLoopLabel,guessField, guessingButton, playAgainButton);
-        
+        //VBox card = new VBox(20, attemptLabel, rangeLabel,feedbackLoopLabel,guessField, guessingButton, playAgainButton);
+        VBox card = new VBox(20, attemptLabel, rangeLabel, feedbackLoopLabel, 
+                arrowLabel, guessField, guessingButton, playAgainButton);
         
         card.setPadding(new Insets(35,40,35,40));
         card.setStyle(CARD_CSS);
@@ -171,7 +181,7 @@ public class HiLow extends Application {
         //System.out.println("Rando Num: " + randomNum );
         attempts  = 0;
         
-        attemptLabel.setText("Attempts: 0");
+        attemptLabel.setText("Rounds");
         rangeLabel.setText("Range:1-100");
         rangeLabel.setTextFill(Color.rgb(99, 102, 241));
         feedbackLoopLabel.setText("Can you guess my number?");
@@ -217,6 +227,7 @@ public class HiLow extends Application {
         if (guess < randomNum) {
             
             showFeedback("Too Low!  Try higher.", Color.RED);
+            arrowLabel.setText("⬆");
             rangeLabel.setText("Range:  " + LOWER_BOUND + " — " + UPPER_BOUND);
             rangeLabel.setTextFill(Color.rgb(239, 68, 68));
             guessField.selectAll();
@@ -224,6 +235,7 @@ public class HiLow extends Application {
         } else if (guess > randomNum) {
             
             showFeedback("Too High!  Try lower.", Color.RED);
+            arrowLabel.setText("⬇");
             rangeLabel.setText("Range:  " + LOWER_BOUND + " -- " + UPPER_BOUND);
             rangeLabel.setTextFill(Color.rgb(234, 179, 8));
             guessField.selectAll();
@@ -231,6 +243,7 @@ public class HiLow extends Application {
         } else {
             // ── Correct ───────────────────────────────────────────
             showFeedback("Correct! The number was " + randomNum + "!", Color.WHITE);
+            arrowLabel.setText("🎯"); 
             rangeLabel.setText("Solved in " + attempts + (attempts == 1 ? " try!" : " tries!"));
             rangeLabel.setTextFill(Color.rgb(34, 197, 94));
             guessField.setDisable(true);
@@ -258,7 +271,7 @@ public class HiLow extends Application {
         tt.setByX(10);
         tt.setCycleCount(4);
         tt.setAutoReverse(true);
-        tt.setOnFinished(actionEvent -> node.setTranslateX(.80));
+        tt.setOnFinished(actionEvent -> node.setTranslateX(0));
         tt.play();
     }
 
